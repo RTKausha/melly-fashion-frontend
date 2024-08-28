@@ -1,10 +1,7 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  build: {
-    outDir: 'dist', // Ensure this matches the publish directory in Netlify
-    rollupOptions: {
-      input: 'index.html', // Or the main entry point of your app
-    },
-  },
-});
+  plugins: [react()],
+})
