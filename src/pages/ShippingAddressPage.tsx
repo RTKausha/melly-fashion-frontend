@@ -36,6 +36,7 @@ export default function ShippingAddressPage() {
               city,
               postalCode,
               country,
+              location
               
             },
         })

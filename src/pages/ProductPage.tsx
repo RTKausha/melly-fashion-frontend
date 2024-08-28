@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetProductDetailsBySlugQuery } from '../hooks/productHooks'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import { convertProductToCartItem, getError } from '../utils'
-import { ApiError } from '../types/ApiError'
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import { Store } from '../Store'
@@ -45,7 +44,7 @@ const navigate = useNavigate()
 return isLoading ? (
  <LoadingBox />
 ) : error   ? (
- <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>
+ <MessageBox variant="danger">{getError(error as any)}</MessageBox>
 ) : !product ? (
  <MessageBox variant="danger">Product Not Found</MessageBox>
 ): (

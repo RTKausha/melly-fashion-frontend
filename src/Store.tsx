@@ -93,6 +93,7 @@ type AppState = {
               postalCode: '',
               city: '',
               country: '',
+              location: ''
             },
             itemsPrice: 0,
             shippingPrice: 0,

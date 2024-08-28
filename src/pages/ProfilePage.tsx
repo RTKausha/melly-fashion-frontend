@@ -16,7 +16,9 @@ export default function ProfilePage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const { mutateAsync: updateProfile, isLoading } = useUpdateProfileMutation()
+  const { mutateAsync: updateProfile, status } = useUpdateProfileMutation()
+
+  const isLoading = status === 'pending';
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
