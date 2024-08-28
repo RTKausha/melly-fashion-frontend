@@ -18,7 +18,7 @@ export default function ProfilePage() {
 
   const { mutateAsync: updateProfile, status } = useUpdateProfileMutation()
 
-  const isLoading = status === 'idle';
+  const isLoading = status === 'pending';
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
