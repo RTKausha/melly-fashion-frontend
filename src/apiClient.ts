@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apiClient = axios.create({
   baseURL:
-    process.env.NODE_ENV === 'development' ? 'http://localhost:4000/' : '/',
+    process.env.NODE_ENV === 'development' ? 'https://melly-fashion-server-2cbd2d9a542e.herokuapp.com/' : 'https://melly-fashion-server-2cbd2d9a542e.herokuapp.com/',
   headers: {
     'Content-type': 'application/json',
   },
