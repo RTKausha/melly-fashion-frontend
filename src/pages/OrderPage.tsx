@@ -1,7 +1,6 @@
-import { useContext, useEffect } from "react"
-import { Store } from "../Store"
+import { useEffect } from "react"
 import { Link, useParams } from "react-router-dom"
-import { useGetOrderDetailsQuery, useGetPaypalClientIdQuery } from "../hooks/orderHooks"
+import { useGetOrderDetailsQuery, useGetPaypalClientIdQuery, usePayOrderMutation } from "../hooks/orderHooks"
 import LoadingBox from "../components/LoadingBox"
 import MessageBox from "../components/MessageBox"
 import { getError } from "../utils"
@@ -12,9 +11,7 @@ import { toast } from "react-toastify"
 import { DISPATCH_ACTION, PayPalButtons, PayPalButtonsComponentProps, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 
 export default function OrderPage() {
-    const { state } = useContext(Store)
-    const loadingPay = state
-
+ 
     const params = useParams()
     const { id: orderId } = params
 
@@ -23,7 +20,13 @@ export default function OrderPage() {
             error, refetch
            } = useGetOrderDetailsQuery(orderId!)
 
-           
+    const { mutateAsync: payOrder, status: loadingPay } = usePayOrderMutation()
+
+    const testPayHandler = async () => {
+      await payOrder({ orderId: orderId! })
+      refetch()
+      toast.success('Order is paid')
+    }
 
     const [{ isPending, isRejected }, paypalDispatch] = usePayPalScriptReducer()
 
@@ -35,18 +38,18 @@ export default function OrderPage() {
           paypalDispatch({
             type: DISPATCH_ACTION.RESET_OPTIONS,
             value: {
-              'clientId': paypalConfig!.clientId,
+              clientId: paypalConfig.clientId, // Updated to camelCase
               currency: 'USD',
             },
-          })
+          });
           paypalDispatch({
             type: DISPATCH_ACTION.LOADING_STATUS,
             value: SCRIPT_LOADING_STATE.PENDING,
-          })
-        }
-        loadPaypalScript()
+          });
+        };
+        loadPaypalScript();
       }
-    }, [paypalConfig])
+    }, [paypalConfig]);    
 
     const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
       style: { layout: 'vertical' },
@@ -81,10 +84,6 @@ export default function OrderPage() {
       }
     }
 
-
-  function testPayHandler(_event: any): void {
-    throw new Error("Function not implemented.")
-  }
 
     return isLoading ? (
       <LoadingBox></LoadingBox>
@@ -230,8 +229,4 @@ export default function OrderPage() {
       </div>
     )
   }
-
-function payOrder(_arg0: any) {
-  throw new Error("Function not implemented.")
-}
 
